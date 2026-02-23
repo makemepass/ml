@@ -1,0 +1,46 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
+from sklearn.datasets import load_iris
+
+iris = load_iris()
+X = iris.data[:, :2]   
+y = iris.target
+target_names = iris.target_names
+
+plt.figure(figsize=(10,4))
+
+plt.subplot(1,2,1)
+
+colors = ['red', 'green', 'blue']
+
+for i, color in enumerate(colors):
+    plt.scatter(X[y == i, 0], X[y == i, 1],
+                color=color, label=target_names[i], alpha=0.7)
+
+plt.title("Original 2D Iris Data")
+plt.xlabel("Sepal Length")
+plt.ylabel("Sepal Width")
+plt.legend()
+
+
+
+pca = PCA(n_components=1)
+X_project = pca.fit_transform(X)
+
+plt.subplot(1,2,2)
+
+for i, color in enumerate(colors):
+    plt.scatter(X_project[y == i], 
+                np.zeros_like(X_project[y == i]),
+                color=color, label=target_names[i], alpha=0.7)
+
+plt.title("Projected 1D Data (PCA)")
+plt.xlabel("Principal Component 1")
+plt.yticks([])
+plt.legend()
+
+plt.tight_layout()
+plt.show()
+
+print("Explained Variance Ratio:", pca.explained_variance_ratio_)
