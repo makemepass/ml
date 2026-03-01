@@ -1,0 +1,11 @@
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+data = pd.read_csv(r"your iris.csv file location")
+
+plt.figure()
+plt.boxplot(data["sepal_length"])
+plt.title("Boxplot of Sepal Length")
+plt.xlabel("Sepal Length")
+plt.show()
