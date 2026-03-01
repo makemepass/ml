@@ -1,0 +1,59 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
+from sklearn import metrics
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+
+data = {
+    'Outlook': ['sunny','sunny','overcast','rainy','rainy','rainy',
+                'overcast','sunny','sunny','rainy','sunny','overcast',
+                'overcast','rainy'],
+    'Temp': ['hot','hot','hot','mild','cool','cool',
+             'cool','mild','cool','mild','mild','mild',
+             'hot','mild'],
+    'Humidity': ['high','high','high','high','normal','normal',
+                 'normal','high','normal','normal','normal',
+                 'high','normal','high'],
+    'Wind': ['weak','strong','weak','weak','weak','strong',
+             'strong','weak','weak','weak','strong',
+             'strong','weak','strong'],
+    'Play Tennis': ['no','no','yes','yes','yes','no',
+                    'yes','no','yes','yes','yes',
+                    'yes','yes','no']
+}
+df = pd.DataFrame(data)
+
+le = LabelEncoder()
+for column in df.columns:
+    df[column] = le.fit_transform(df[column])
+
+X = df.drop('Play Tennis', axis=1)
+y = df['Play Tennis']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=10)
+
+clf_entropy = DecisionTreeClassifier(criterion="entropy", random_state=0)
+clf_entropy.fit(X_train, y_train)
+
+clf_gini = DecisionTreeClassifier(criterion="gini", random_state=0)
+clf_gini.fit(X_train, y_train)
+
+acc_entropy = metrics.accuracy_score(y_test, clf_entropy.predict(X_test))
+acc_gini = metrics.accuracy_score(y_test, clf_gini.predict(X_test))
+
+print("--- Model Accuracy Comparison ---")
+print(f"Accuracy using Entropy: {acc_entropy:.2f}")
+print(f"Accuracy using Gini:    {acc_gini:.2f}")
+
+fig, axs = plt.subplots(1, 2, figsize=(15, 6))
+
+plot_tree(clf_entropy, filled=True, feature_names=list(X.columns), class_names=['no','yes'], ax=axs[0])
+axs[0].set_title("Decision Tree (Entropy)")
+
+plot_tree(clf_gini, filled=True, feature_names=list(X.columns), class_names=['no','yes'], ax=axs[1])
+axs[1].set_title("Decision Tree (Gini Index)")
+
+plt.tight_layout()
+plt.show()
