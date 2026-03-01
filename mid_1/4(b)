@@ -1,0 +1,29 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_blobs
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+
+X, y = make_blobs(n_samples=200, n_features=2, centers=2, random_state=42, cluster_std=1.5)
+
+lda = LinearDiscriminantAnalysis(n_components=1)
+X_projected = lda.fit_transform(X, y)
+
+plt.figure(figsize=(10, 4))
+colors = ['red', 'blue']
+
+plt.subplot(1, 2, 1)
+for i, color in enumerate(colors):
+    plt.scatter(X[y == i, 0], X[y == i, 1], color=color, label=f'Class {i}')
+
+plt.title("Original 2D Data")
+plt.legend()
+
+plt.subplot(1, 2, 2)
+for i, color in enumerate(colors):
+    plt.scatter(X_projected[y == i], np.zeros_like(X_projected[y == i]), color=color, label=f'Class {i}')
+
+plt.title("Projected 1D Data")
+plt.yticks([]) # Still needed to hide the arbitrary y-axis values in a 1D plot
+plt.legend()
+
+plt.show()
