@@ -1,35 +1,19 @@
-##draw histogram for each feature using matplotlib##
-
-
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 
-data = pd.read_csv(r"your iris.csv file location")
+data = pd.read_csv(r"iris.csv")
 
-plt.figure()
-plt.hist(data["sepal_length"])
-plt.title("Histogram of Sepal Length")
-plt.xlabel("Sepal Length")
-plt.ylabel("Frequency")
-plt.show()
+fig, axs = plt.subplots(2, 2, figsize=(10, 8))
+axs = axs.flatten() # Flatten the 2x2 array of axes for easy iteration
 
-plt.figure()
-plt.hist(data["sepal_width"])
-plt.title("Histogram of Sepal Width")
-plt.xlabel("Sepal Width")
-plt.ylabel("Frequency")
-plt.show()
+features = ["sepal_length", "sepal_width", "petal_length", "petal_width"]
 
-plt.figure()
-plt.hist(data["petal_length"])
-plt.title("Histogram of Petal Length")
-plt.xlabel("Petal Length")
-plt.ylabel("Frequency")
-plt.show()
+for i, feature in enumerate(features):
+    axs[i].hist(data[feature])
+    axs[i].set_title(f"Histogram of {feature.replace('_', ' ').title()}")
+    axs[i].set_xlabel(feature.replace('_', ' ').title())
+    axs[i].set_ylabel("Frequency")
 
-plt.figure()
-plt.hist(data["petal_width"])
-plt.title("Histogram of Petal Width")
-plt.xlabel("Petal Width")
-plt.ylabel("Frequency")
+plt.tight_layout()
 plt.show()
