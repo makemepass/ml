@@ -1,0 +1,24 @@
+import pandas as pd
+data=[10,20,30,40,50]
+ser=pd.Series(data,index=['A','B','C','D','E'])
+print("\npandas series")
+print(ser)
+data={
+    'Name':['Alice','Bob','Juan','Michael','Nobita','Max','Dustin'],
+    'Age':[23,26,31,21,26,28,29],
+    'Marks':[89,78,69,88,80,49,93]
+}
+df=pd.DataFrame(data)
+print(df)
+print("\nReading a csv file")
+csv_df=pd.read_csv("your customers or iris csv file location here")
+print(csv_df)
+print("\nData analytics")
+print(csv_df.head(3))
+print("\n2.summary of Dataframe")
+print(csv_df.info())
+print("\n3.Statistical summary")
+print(csv_df.describe())
+print("\n4.Data filtering")
+filtered_data=csv_df[csv_df['Age']>25]
+print(filtered_data)
