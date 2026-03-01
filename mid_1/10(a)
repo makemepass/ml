@@ -1,0 +1,18 @@
+import pandas as pd
+
+data = {
+    'Student': ['Alice', 'Bob', 'Charlie', 'David', 'Eve'],
+    'Age': [20, 21, 19, 22, 20],
+    'Score': [85, 92, 78, 95, 88]
+}
+df = pd.DataFrame(data)
+print("--- 1. Using head() ---")
+print(df.head(3)) 
+print("\n--- 2. Using info() ---")
+df.info()
+print("\n--- 3. Using describe() ---")
+print(df.describe()) 
+print("\n--- 4. Conditional Filtering ---")
+top_students = df[df['Score'] > 80]
+print("Students with a score greater than 80:")
+print(top_students)
