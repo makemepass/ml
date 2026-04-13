@@ -1,44 +1,36 @@
 import pandas as pd
-from sklearn.preprocessing import LabelEncoder as LE
-from sklearn.naive_bayes import GaussianNB as GNB
-from sklearn.model_selection import train_test_split as split
-from sklearn.metrics import accuracy_score as acc
+from sklearn.preprocessing import LabelEncoder
+from sklearn.naive_bayes import CategoricalNB
 
-d = {
-    's': [
-        'burger','pizza','noodles','burger','pizza',
-        'burger','noodles','noodles','pizza','noodles',
-        'noodles','noodles','pizza','pizza','noodles'
-    ],
-    'p': [
-        'yes','no','yes','yes','yes',
-        'no','no','yes','no','yes',
-        'no','no','yes','yes','no'
-    ]
+data = {
+    "snack": ["burger","noodles","pizza","burger","pizza","burger",
+              "noodles","noodles","pizza","noodles","noodles","noodles",
+              "pizza","pizza","noodles"],
+    "purchase": ["yes","no","yes","yes","yes","no",
+                 "no","yes","no","yes","no","no",
+                 "yes","yes","no"]
 }
 
-df = pd.DataFrame(d)
+df = pd.DataFrame(data)
 
-le_s = LE()
-le_p = LE()
+le_snack = LabelEncoder()
+le_purchase = LabelEncoder()
 
-df['s_e'] = le_s.fit_transform(df['s'])
-df['p_e'] = le_p.fit_transform(df['p'])
+df["snack_encoded"] = le_snack.fit_transform(df["snack"])
+df["purchase_encoded"] = le_purchase.fit_transform(df["purchase"])
 
-X = df[['s_e']]
-y = df['p_e']
+X = df[["snack_encoded"]]   # keep as DataFrame
+y = df["purchase_encoded"]
 
-X_tr, X_te, y_tr, y_te = split(X, y, test_size=0.2, random_state=42)
+model = CategoricalNB()
+model.fit(X, y)
 
-m = GNB()
-m.fit(X_tr, y_tr)
+snack_input = "pizza"
+encoded_input = le_snack.transform([snack_input])
 
-y_pr = m.predict(X_te)
-print("Accuracy:", acc(y_te, y_pr))
+input_df = pd.DataFrame(encoded_input, columns=["snack_encoded"])
 
-samp = ['burger']
-samp_e = le_s.transform(samp)
-samp_df = pd.DataFrame(samp_e, columns=['s_e'])
+prediction = model.predict(input_df)
+result = le_purchase.inverse_transform(prediction)
 
-pred = m.predict(samp_df)
-print("Prediction:", le_p.inverse_transform(pred))
+print("Prediction for", snack_input, ":", result[0])
