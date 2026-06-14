@@ -1,0 +1,14 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+data = pd.read_csv(r"iris.csv")
+numerical_features = data.select_dtypes(include=np.number).columns.tolist()
+fig, axes = plt.subplots(2, 2, figsize=(10, 8))
+axes = axes.flatten()
+for i, feature_name in enumerate(numerical_features):
+    axes[i].hist(data[feature_name])
+plt.tight_layout()
+plt.show()
+plt.figure(figsize=(10, 7))
+plt.boxplot(data[numerical_features].values, tick_labels=numerical_features)
+plt.show()
