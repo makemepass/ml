@@ -1,0 +1,19 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+
+data = pd.read_csv(r"iris.csv")
+
+fig, axs = plt.subplots(2, 2, figsize=(10, 8))
+axs = axs.flatten() # Flatten the 2x2 array of axes for easy iteration
+
+features = ["sepal_length", "sepal_width", "petal_length", "petal_width"]
+
+for i, feature in enumerate(features):
+    axs[i].hist(data[feature])
+    axs[i].set_title(f"Histogram of {feature.replace('_', ' ').title()}")
+    axs[i].set_xlabel(feature.replace('_', ' ').title())
+    axs[i].set_ylabel("Frequency")
+
+plt.tight_layout()
+plt.show()
