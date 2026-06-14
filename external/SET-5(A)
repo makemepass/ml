@@ -1,0 +1,18 @@
+import numpy as np
+array = np.array([10, 20, 30, 40, 50, 60, 70, 80, 90, 100])
+print("Original 1D array:\n", array)
+
+print("\n--- Indexing ---")
+print("Element at index 2:", array[2])
+print("Last element using negative indexing:", array[-1])
+
+print("\n--- Slicing ---")
+print("First 5 elements:", array[0:5])
+print("Every second element:", array[1:10:2])
+print("Reversed array:", array[::-1])
+
+print("\n--- Modification ---")
+array[0] = 999 
+print("Array after changing the first element:\n", array)
+array[1:3] = [555, 666]
+print("Array after modifying a slice:\n", array)
