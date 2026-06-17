@@ -1,18 +1,20 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+from sklearn.datasets import load_iris
 
-data = pd.read_csv(r"iris.csv")
+iris = load_iris()
+data = pd.DataFrame(data=iris.data, columns=iris.feature_names)
 
 fig, axs = plt.subplots(2, 2, figsize=(10, 8))
-axs = axs.flatten() # Flatten the 2x2 array of axes for easy iteration
+axs = axs.flatten() 
 
-features = ["sepal_length", "sepal_width", "petal_length", "petal_width"]
+features = iris.feature_names
 
 for i, feature in enumerate(features):
     axs[i].hist(data[feature])
-    axs[i].set_title(f"Histogram of {feature.replace('_', ' ').title()}")
-    axs[i].set_xlabel(feature.replace('_', ' ').title())
+    axs[i].set_title(f"Histogram of {feature.title()}")
+    axs[i].set_xlabel(feature.title())
     axs[i].set_ylabel("Frequency")
 
 plt.tight_layout()
