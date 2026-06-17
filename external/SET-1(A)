@@ -54,9 +54,9 @@ plt.figure(figsize=(8, 5))
 sns.barplot(
     x=rf.feature_importances_, 
     y=x.columns, 
-    hue=x.columns,     # Fixes the palette warning
+    hue=x.columns,    
     palette="viridis", 
-    legend=False       # Removes redundant legend
+    legend=False      
 )
 plt.title("Feature Importance")
 plt.show()
